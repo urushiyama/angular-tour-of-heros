@@ -1,10 +1,10 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }        from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location }                 from '@angular/common';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import { Hero }                     from './hero';
+import { HeroService }              from './hero.service';
 
 @Component({
   selector: 'hero-detail',
@@ -21,12 +21,18 @@ export class HeroDetailComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    this.route.paramMap
-      .switchMap((params: ParamMap) => this.HeroService.getHero(+params.get('id')))
-      .subscribe(hero => this.hero = hero);
+    this.route.paramMap.switchMap((params: ParamMap) =>
+                          this.HeroService.getHero(+params.get('id'))
+                       )
+                       .subscribe(hero => this.hero = hero);
   }
   
   goBack(): void {
     this.location.back();
+  }
+  
+  save(): void {
+    this.HeroService.update(this.hero)
+                    .then(() => this.goBack());
   }
 }
